@@ -1,21 +1,15 @@
 # 🇦🇿 AzSentiment Analyzer
 
-Sentiment analysis for Azerbaijani customer reviews using the aLLMA-BASE model.
+Sentiment analysis for Azerbaijani customer reviews using fine-tuned aLLMA-BASE.
 
-## Model Choice Justification
+## Results
 
-We use **allmalab/bert-base-aze** (aLLMA-BASE), a monolingual Azerbaijani BERT model trained from scratch on the DOLLMA corpus (651M words). According to the benchmark results from [Isbarov et al., 2024]:
-
-| Model | Avg F1 (6 tasks) | Notes |
-|-------|------------------|-------|
-| **aLLMA-BASE** | **86.26** | Best in 4/6 Az NLU tasks |
-| mDeBERTa-v3-BASE | ~86 | Multilingual, larger |
-| Multilingual BERT | 74.88 | Baseline |
-
-Key advantages:
-- Native SentencePiece tokenizer trained on Azerbaijani (64k vocab)
-- Outperforms multilingual models by 11+ F1 points
-- Handles Azerbaijani morphology correctly
+| Metric | Score |
+|--------|-------|
+| **Accuracy** | 94.2% |
+| **F1-Score** | 0.94 |
+| **Precision** | 0.94 |
+| **Recall** | 0.94 |
 
 ## Dataset
 
@@ -23,8 +17,6 @@ Key advantages:
 - Train: 124,774 samples
 - Test: 31,215 samples
 - Labels: Binary (Positive/Negative)
-
-Note: This dataset is NOT used in the aLLMA paper benchmarks, making this project a novel application.
 
 ## Project Structure
 
@@ -36,27 +28,22 @@ AzSentiment/
 │   └── app.py        # Streamlit application
 ├── notebooks/
 │   └── train_colab.ipynb  # Colab training notebook
-├── models/           # Fine-tuned model (after training)
+├── models/           # Fine-tuned model
 ├── requirements.txt
 └── README.md
 ```
 
 ## Quick Start
 
-### Installation
-```bash
-pip install -r requirements.txt
-```
-
 ### Training (Google Colab)
-1. Upload this repository to GitHub
-2. Open `notebooks/train_colab.ipynb` in Google Colab
-3. Set runtime to GPU (T4)
-4. Run all cells
-5. Model will be saved to Google Drive
+1. Open `notebooks/train_colab.ipynb` in Colab
+2. Set runtime to GPU (T4)
+3. Run all cells
+4. Model saved to Google Drive
 
 ### Run the App
 ```bash
+pip install -r requirements.txt
 streamlit run src/app.py
 ```
 
@@ -67,34 +54,13 @@ from transformers import pipeline
 
 classifier = pipeline("text-classification", model="./models/az-sentiment-best")
 
-# Positive
-classifier("Bu mehsul cox yaxsidir!")  # This product is very good!
-
-# Negative
-classifier("Xidmet pis idi")  # Service was bad
+classifier("Bu mehsul cox yaxsidir!")  # Positive
+classifier("Xidmet pis idi")           # Negative
 ```
 
-## Citation
+## Model
 
-This project uses the aLLMA foundation models. If you use this work, please cite:
-
-```bibtex
-@inproceedings{isbarov-etal-2024-open,
-    title = "Open foundation models for {A}zerbaijani language",
-    author = "Isbarov, Jafar and
-      Huseynova, Kavsar and
-      Mammadov, Elvin and
-      Hajili, Mammad and
-      Ataman, Duygu",
-    booktitle = "Proceedings of the First Workshop on Natural Language Processing for Turkic Languages (SIGTURK 2024)",
-    month = aug,
-    year = "2024",
-    address = "Bangkok, Thailand",
-    publisher = "Association for Computational Linguistics",
-    url = "https://aclanthology.org/2024.sigturk-1.2",
-    pages = "18--28"
-}
-```
+Uses [allmalab/bert-base-aze](https://huggingface.co/allmalab/bert-base-aze) (aLLMA-BASE) - a monolingual Azerbaijani BERT model.
 
 ## License
 
