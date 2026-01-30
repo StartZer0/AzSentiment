@@ -1,4 +1,4 @@
-# AzSentiment Analyzer
+# 🇦🇿 AzSentiment Analyzer
 
 Sentiment analysis for Azerbaijani customer reviews using the aLLMA-BASE model.
 

@@ -36,6 +36,13 @@ def load_az_sentiment():
         # Filter out neutral scores (3) for binary classification
         df = df[df["score"] != 3].copy()
         
+        # Remove null/empty text values
+        df = df.dropna(subset=["text"])
+        df = df[df["text"].astype(str).str.strip() != ""]
+        
+        # Ensure text is string type
+        df["text"] = df["text"].astype(str)
+        
         # Create binary label
         df["label"] = df["score"].apply(lambda x: 1 if x >= 4 else 0)
         
