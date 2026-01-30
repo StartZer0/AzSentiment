@@ -1,0 +1,9 @@
+torch
+transformers
+datasets
+evaluate
+accelerate
+streamlit
+seaborn
+matplotlib
+scikit-learn
